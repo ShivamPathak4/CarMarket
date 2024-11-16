@@ -65,7 +65,7 @@ const SignIn = () => {
         <div className="flex justify-center">
           <img
             className="h-12 w-auto"
-            src="/your-logo.png"
+              src="https://acecars.info/wp-content/uploads/2023/01/istockphoto-624288380-612x612-1.jpg"
             alt="Your Company"
           />
         </div>
