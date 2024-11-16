@@ -1,0 +1,15 @@
+* {
+  font-family: "Barlow", sans-serif;
+  font-family: "Fraunces", serif;
+  font-family: "League Spartan", sans-serif;
+  font-family: "Montserrat", sans-serif;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  
