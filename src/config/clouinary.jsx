@@ -1,6 +1,6 @@
-const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
-const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`;
+const CLOUDINARY_CLOUD_NAME = "dnkocy8w8";
+const CLOUDINARY_UPLOAD_PRESET = "vn0c6zhs";
+const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/dnkocy8w8/image/upload`;
 
 export const uploadImageToCloudinary = async (file) => {
   const data = new FormData();
