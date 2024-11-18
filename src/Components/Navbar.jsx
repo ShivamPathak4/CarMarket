@@ -106,7 +106,7 @@ const Navbar = () => {
               onClick={() => navigate("/")}
               className="text-2xl font-bold text-blue-600 cursor-pointer font-sans"
             >
-              SpyneCar
+              SellCar
             </h1>
           </div>
 
