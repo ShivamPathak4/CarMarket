@@ -4,15 +4,38 @@ import { BiCalendar, BiSearch } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
-import API_BASE_URL from "../baseURL"; 
+import API_BASE_URL from "../baseURL";
 
 const Home = () => {
   const [myPost, setMyPost] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showSearch, setShowSearch] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const navigate = useNavigate();
   const alertError = (msg) => toast.error(msg);
   const alertSuccess = (msg) => toast.success(msg);
+
+  useEffect(() => {
+    const controlSearchBar = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 200) { // Only show after scrolling down 200px
+        if (currentScrollY < lastScrollY) { // Scrolling up
+          setShowSearch(true);
+        } else { // Scrolling down
+          setShowSearch(false);
+        }
+      } else {
+        setShowSearch(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', controlSearchBar);
+    return () => window.removeEventListener('scroll', controlSearchBar);
+  }, [lastScrollY]);
 
   useEffect(() => {
     setLoading(true);
@@ -64,7 +87,7 @@ const Home = () => {
       })
       .catch((error) => {
         console.error("Error searching cars:", error);
-        alertError("Failed to search data");
+        alertError("No data found matching the search query.");
       })
       .finally(() => setLoading(false));
   };
@@ -80,20 +103,47 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 mt-10">
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Sticky Search Bar - Only shows when scrolling up */}
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 bg-white shadow-md transform transition-transform duration-300 ${
+          showSearch ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
+        <div className="container mx-auto px-4 py-3">
+          <div className="relative max-w-xl mx-auto">
+            <input
+              type="text"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Search cars..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+            />
+            <BiSearch className="absolute left-3 top-2.5 text-gray-400 h-5 w-5" />
+            <button
+              onClick={handleSearch}
+              className="absolute right-3 top-2 text-blue-500 hover:text-blue-600"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <div className="lg:w-1/4">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-8">
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
-                    Search for Cars
-                  </label>
                   <div className="relative">
                     <input
                       type="text"
-                      id="search"
                       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Search cars..."
                       value={searchQuery}
@@ -105,14 +155,14 @@ const Home = () => {
                       }}
                     />
                     <BiSearch className="absolute left-3 top-2.5 text-gray-400 h-5 w-5" />
+                    <button
+                      onClick={handleSearch}
+                      className="absolute right-3 top-2 text-blue-500 hover:text-blue-600"
+                    >
+                      Search
+                    </button>
                   </div>
                 </div>
-                <button
-                  onClick={handleSearch}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 ease-in-out"
-                >
-                  Search
-                </button>
               </div>
             </div>
           </div>
