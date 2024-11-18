@@ -100,7 +100,7 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 mt-10">
+    <div className="min-h-screen bg-gray-50 md:mt-10">
       {/* Sticky Search Bar */}
       <div
         className={`fixed top-0 left-0 right-0 z-50 bg-white shadow-md transform transition-transform duration-300 ${
